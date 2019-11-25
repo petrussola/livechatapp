@@ -1,6 +1,6 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Store from "./Store";
 
 // COMPONENTS
 import Dashboard from "./Dashboard";
@@ -8,7 +8,9 @@ import Dashboard from "./Dashboard";
 function App() {
   return (
     <div className="App">
-      <Dashboard />
+      <Store>
+        <Dashboard />
+      </Store>
     </div>
   );
 }

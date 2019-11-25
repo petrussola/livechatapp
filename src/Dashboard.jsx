@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
+import { CTX } from "./Store";
 
 // MATERIAL UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,6 +43,12 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard() {
   const classes = useStyles();
 
+  // CTX STORE
+  const [allChats, dispatch] = useContext(CTX);
+  const topics = Object.keys(allChats);
+
+  // local state
+  const [activeTopic, changeActiveTopic] = useState(topics[0]);
   const [textValue, changeTextValue] = useState("");
 
   return (
@@ -50,13 +58,17 @@ export default function Dashboard() {
           Chat app
         </Typography>
         <Typography variant="h5" component="h5">
-          Topic placeholder
+          {activeTopic}
         </Typography>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
             <List>
-              {["topic"].map(topic => (
-                <ListItem key={topic} button>
+              {topics.map(topic => (
+                <ListItem
+                  onClick={e => changeActiveTopic(e.target.innerText)}
+                  key={topic}
+                  button
+                >
                   <ListItemText primary={topic} />
                 </ListItem>
               ))}
@@ -66,7 +78,9 @@ export default function Dashboard() {
             {[{ from: "user", msg: "hello" }].map((chat, i) => (
               <div className={classes.flex} key={i}>
                 <Chip label={chat.from} className={classes.chip} />
-                <Typography variant="p">{chat.msg}</Typography>
+                <Typography variant="body1" gutterBottom>
+                  {chat.msg}
+                </Typography>
               </div>
             ))}
           </div>
